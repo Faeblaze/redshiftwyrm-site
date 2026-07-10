@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Zephlyra | RedShiftWyrm</title>
+
+  <style>
+    :root {
+      --bg: #05050a;
+      --panel: rgba(10, 10, 18, 0.86);
+      --text: #f3eefc;
+      --muted: #c6bdd6;
+      --purple: #9b5cff;
+      --blue: #39b6ff;
+      --red: #ff335d;
+      --border: rgba(170, 110, 255, 0.28);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top left, rgba(57, 182, 255, 0.16), transparent 28%),
+        radial-gradient(circle at top right, rgba(155, 92, 255, 0.22), transparent 32%),
+        radial-gradient(circle at bottom, rgba(255, 51, 93, 0.10), transparent 35%),
+        var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.65;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(12px);
+      background: rgba(5, 5, 10, 0.78);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 1.25rem;
+    }
+
+    .topbar-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #ffffff;
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 0.55rem 0.9rem;
+      border-radius: 999px;
+      transition: 0.2s ease;
+    }
+
+    .nav-link:hover {
+      color: white;
+      border-color: var(--purple);
+      box-shadow: 0 0 18px rgba(155, 92, 255, 0.28);
+    }
+
+    .hero {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 5rem 1.25rem 3rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(300px, 480px);
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .eyebrow {
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+    }
+
+    h1 {
+      font-size: clamp(2.6rem, 7vw, 5.5rem);
+      line-height: 0.95;
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: -0.05em;
+    }
+
+    .subtitle {
+      margin-top: 1.25rem;
+      color: var(--muted);
+      font-size: 1.08rem;
+      max-width: 720px;
+    }
+
+    .hero-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 0 40px rgba(155, 92, 255, 0.18);
+    }
+
+    .hero-card img {
+      width: 100%;
+      display: block;
+      cursor: pointer;
+    }
+
+    .section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 1.25rem;
+    }
+
+    .section-header {
+      margin-bottom: 1.4rem;
+    }
+
+    .section-header h2 {
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      text-transform: uppercase;
+      letter-spacing: -0.04em;
+    }
+
+    .lore-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+      gap: 1.2rem;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 1.35rem;
+      box-shadow: 0 0 28px rgba(0, 0, 0, 0.22);
+    }
+
+    .panel h3 {
+      margin-top: 0;
+      color: #dfd0ff;
+    }
+
+    .panel ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+
+    .panel li {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0.65rem 0;
+      color: var(--muted);
+    }
+
+    .panel li:last-child {
+      border-bottom: 0;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+
+    .gallery-item {
+      margin: 0;
+      background: rgba(10, 10, 18, 0.82);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      display: block;
+      cursor: pointer;
+      transition: transform 0.22s ease, filter 0.22s ease;
+    }
+
+    .gallery-item img:hover {
+      transform: scale(1.035);
+      filter: brightness(1.12);
+    }
+
+    .gallery-item figcaption {
+      padding: 0.8rem 0.9rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .footer {
+      padding: 3rem 1.25rem;
+      text-align: center;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+
+    .lightbox {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.92);
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 96vw;
+      max-height: 90vh;
+      border-radius: 14px;
+      box-shadow: 0 0 40px rgba(155, 92, 255, 0.32);
+    }
+
+    .lightbox-close {
+      position: fixed;
+      top: 1rem;
+      right: 1.25rem;
+      color: white;
+      font-size: 2.3rem;
+      cursor: pointer;
+      line-height: 1;
+      z-index: 1001;
+    }
+/* Prevent blue selection/tap highlight on gallery images */
+img,
+.gallery-item,
+.gallery-item img,
+.hero-card img,
+.lightbox img,
+.lightbox-close {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+img:focus,
+img:active,
+.gallery-item:focus,
+.gallery-item:active,
+.gallery-item img:focus,
+.gallery-item img:active,
+.hero-card img:focus,
+.hero-card img:active,
+.lightbox img:focus,
+.lightbox img:active {
+  outline: none;
+}
+
+.gallery-item img {
+  -webkit-touch-callout: none;
+}
+    
+    @media (max-width: 850px) {
+      .hero,
+      .lore-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-item img {
+        height: 240px;
+      }
+
+      .topbar-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">RedShiftWyrm</div>
+      <a class="nav-link" href="./index.html">Return Home</a>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Southern Arc / Storm Fang</p>
+        <h1>Zephlyra</h1>
+        <p class="subtitle">
+          Zephlyra is the storm-born harpy force of the southern ocean cliffs. She enters the RedShiftWyrm saga as a savage rival to Reilana Sirocclume, challenging Apostle authority through speed, wings, talons, lightning, and territorial pride.
+        </p>
+        <p class="subtitle">
+          Her defeat does not erase her. It redirects her. Zephlyra becomes positioned as a future Fang of RedShiftWyrm, proof that the doctrine can spread through dominance, pressure, and transformation.
+        </p>
+      </div>
+
+      <div class="hero-card">
+        <img 
+          src="./zephlyra.10.png"
+          loading="eager"
+          decoding="async"
+          alt="Zephlyra, Storm Fang of the Southern Cliffs"
+          onclick="openLightbox('./zephlyra.10.png')"
+        >
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <p class="eyebrow">Lore Profile</p>
+        <h2>Storm-Born Rival</h2>
+      </div>
+
+      <div class="lore-grid">
+        <div class="panel">
+          <h3>Role in the Southern Arc</h3>
+          <p>
+            Zephlyra begins as a dominant cliff-born harpy warrior, shaped by ocean storms, height, speed, talon violence, and faction pride. She is not a passive recruit. She is a collision point.
+          </p>
+
+          <h3>Purpose</h3>
+          <p>
+            Her clash with Reilana proves that RedShiftWyrm’s influence is expanding beyond isolated Apostles. Reilana’s victory becomes a public demonstration of gravity pressure, hierarchy, and the right to command the south.
+          </p>
+
+          <h3>Status</h3>
+          <p>
+            Zephlyra starts as a rival power, is broken beneath Reilana’s Apostle authority, and becomes positioned as a future Fang. Her story expands the southern arc into a faction conflict, not a simple travel stop.
+          </p>
+        </div>
+
+        <div class="panel">
+          <h3>Canon Identity</h3>
+          <ul>
+            <li><strong>Name:</strong> Zephlyra</li>
+            <li><strong>Race:</strong> Storm Harpy</li>
+            <li><strong>Region:</strong> Southern ocean cliffs</li>
+            <li><strong>Role:</strong> Rival force / future Fang</li>
+            <li><strong>Magic Theme:</strong> Storm, speed, wind pressure, lightning</li>
+            <li><strong>Story Function:</strong> Reilana’s first major proof of dominance</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <p class="eyebrow">Character Gallery</p>
+        <h2>Zephlyra Design Set</h2>
+      </div>
+
+      <div class="gallery-grid">
+
+        <figure class="gallery-item">
+          <img src="./zephlyra.1.png" loading="lazy" decoding="async" alt="Zephlyra design image 1" onclick="openLightbox('./zephlyra.1.png')">
+          <figcaption>Zephlyra Design I</figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <img src="./zephlyra.2.png" loading="lazy" decoding="async" alt="Zephlyra design image 2" onclick="openLightbox('./zephlyra.2.png')">
+          <figcaption>Zephlyra Design II</figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <img src="./zephlyra.3.png" loading="lazy" decoding="async" alt="Zephlyra design image 3" onclick="openLightbox('./zephlyra.3.png')">
+          <figcaption>Zephlyra Design III</figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <img src="./zephlyra.4.png" loading="lazy" decoding="async" alt="Zephlyra design image 4" onclick="openLightbox('./zephlyra.4.png')">
+          <figcaption>Storm Profile</figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <img src="./zephlyra.5.png" loading="lazy" decoding="async" alt="Zephlyra design image 5" onclick="openLightbox('./zephlyra.5.png')">
+          <figcaption>Cliff Sovereign</figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <img src="./zephlyra.6.png" loading="lazy" decoding="async" alt="Zephlyra design image 6" onclick="openLightbox('./zephlyra.6.png')">
+          <figcaption>Storm Anatomy</figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <img src="./zephlyra.7.png" loading="lazy" decoding="async" alt="Zephlyra design image 7" onclick="openLightbox('./zephlyra.7.png')">
+          <figcaption>Feral Expression</figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <img src="./zephlyra.8.png" loading="lazy" decoding="async" alt="Zephlyra design image 8" onclick="openLightbox('./zephlyra.8.png')">
+          <figcaption>Controlled Threat</figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <img src="./zephlyra.9.png" loading="lazy" decoding="async" alt="Zephlyra design image 9" onclick="openLightbox('./zephlyra.9.png')">
+          <figcaption>Storm Flight</figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <img src="./zephlyra.10.png" loading="lazy" decoding="async" alt="Zephlyra design image 10" onclick="openLightbox('./zephlyra.10.png')">
+          <figcaption>Huntress Dive</figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <img src="./zephlyra.11.png" loading="lazy" decoding="async" alt="Zephlyra design image 11" onclick="openLightbox('./zephlyra.11.png')">
+          <figcaption>Southern Storm</figcaption>
+        </figure>
+
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
+        <p class="eyebrow">Visual Sequence</p>
+        <h2>Zephlyra vs Reilana</h2>
+      </div>
+
+      <div class="gallery-grid">
+
+        <figure class="gallery-item">
+          <img src="./character-zephlyra.character-reilana.1.png" loading="lazy" decoding="async" alt="Zephlyra and Reilana sequence image 1" onclick="openLightbox('./character-zephlyra.character-reilana.1.png')">
+          <figcaption>Opening Clash</figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <img src="./character-zephlyra.character-reilana.2.png" loading="lazy" decoding="async" alt="Zephlyra and Reilana sequence image 2" onclick="openLightbox('./character-zephlyra.character-reilana.2.png')">
+          <figcaption>Apostle Defense</figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <img src="./character-zephlyra.character-reilana.3.png" loading="lazy" decoding="async" alt="Zephlyra and Reilana sequence image 3" onclick="openLightbox('./character-zephlyra.character-reilana.3.png')">
+          <figcaption>Submission</figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <img src="./character-zephlyra.character-reilana.4.png" loading="lazy" decoding="async" alt="Zephlyra and Reilana sequence image 4" onclick="openLightbox('./character-zephlyra.character-reilana.4.png')">
+          <figcaption>Gravity Pin</figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <img src="./character-zephlyra.character-reilana.5.png" loading="lazy" decoding="async" alt="Zephlyra and Reilana sequence image 5" onclick="openLightbox('./character-zephlyra.character-reilana.5.png')">
+          <figcaption>Dominance Proven</figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <img src="./character-zephlyra.character-reilana.6.png" loading="lazy" decoding="async" alt="Zephlyra and Reilana sequence image 6" onclick="openLightbox('./character-zephlyra.character-reilana.6.png')">
+          <figcaption>Aftermath</figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <img src="./character-zephlyra.character-reilana.7.png" loading="lazy" decoding="async" alt="Zephlyra and Reilana sequence image 7" onclick="openLightbox('./character-zephlyra.character-reilana.7.png')">
+          <figcaption>Fang Awakening</figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <img src="./character-zephlyra.character-reilana.8.png" loading="lazy" decoding="async" alt="Zephlyra and Reilana sequence image 8" onclick="openLightbox('./character-zephlyra.character-reilana.8.png')">
+          <figcaption>Storm Reforged</figcaption>
+        </figure>
+
+        <figure class="gallery-item">
+          <img src="./character-zephlyra.character-reilana.9.png" loading="lazy" decoding="async" alt="Zephlyra and Reilana sequence image 9" onclick="openLightbox('./character-zephlyra.character-reilana.9.png')">
+          <figcaption>New Hierarchy</figcaption>
+        </figure>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>RedShiftWyrm | Conquer the Inner Void</p>
+    <p><a href="./index.html">Return to Home</a></p>
+  </footer>
+
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img id="lightbox-img" src="" alt="Expanded artwork">
+  </div>
+
+  <script>
+    function openLightbox(src) {
+      const lightbox = document.getElementById('lightbox');
+      const image = document.getElementById('lightbox-img');
+      image.src = src;
+      lightbox.classList.add('active');
+    }
+
+    function closeLightbox() {
+      const lightbox = document.getElementById('lightbox');
+      const image = document.getElementById('lightbox-img');
+      lightbox.classList.remove('active');
+      image.src = '';
+    }
+
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Escape') {
+        closeLightbox();
+      }
+    });
+  </script>
+
+</body>
+</html>
